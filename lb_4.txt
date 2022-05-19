@@ -1,0 +1,239 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Random;
+
+
+public class Main
+{
+    static Scanner skr = new Scanner(System.in);
+    static Random rand = new Random();
+    public static final String ANSI_RED = "\u001B[31m";
+    public static int[][] Ввід(int n,int n1) {
+
+        int[][] array = new int[n][];
+        Scanner scanner = new Scanner(System.in);
+        for (int i = 0; i < n; i++) {
+            array[i] = new int[n];
+            for (int j = 0; j < n1; j++)
+            {
+                System.out.println("Введіть елемент :");
+                array[i][j] = scanner.nextInt();
+            }
+        }
+
+        return array;
+    }
+
+    public static int [][] Рандом(int n,int n1) {
+        int array[][]=new int[n][n1];
+        for (int i = 0; i < n; i++)
+        {
+            for(int j=0;j< n1;j++)
+            {
+                array[i][j] = rand.nextInt(100 + 100) - 100;
+            }
+
+        }
+             Вивід(array,n,n1);
+            return  array;
+    }
+
+    private static boolean checkRandom(int array[][]) {
+        int random = 0;
+        for (int i = 0; i < array.length; i++)
+        {
+            for (int j = 0; j < array.length; j++)
+            {
+
+                if (array[i][j] == random)
+                {
+                    System.out.println(" Елементи повторяються! ");
+                    return true;
+                }
+            }
+
+        }
+
+        return false;
+    }
+
+    public static void Вивід (int array [][],int n,int n1) {
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n1; j++)
+            {
+                System.out.printf("%d ", array[i][j]);
+            }
+            System.out.println();
+
+        }
+    }
+    public static  int   СумаДіагоналі(int array[][],int n,int n1) {
+        int sum =0;
+        for (int i = 0; i < n; i++)
+        {
+            for (int j=0;j<n1;j++)
+            {
+
+                if (i +j==n-1)
+                    sum +=array[i][j];
+            }
+
+        }
+       return sum;
+    }
+     static public void  Матриця(int[][] array,int n,int n1) {
+
+         int max=0;
+         int R1=СумаДіагоналі(array,n,n1);
+         List<Integer > e1 = new ArrayList<>();
+
+          for (int i = 0; i < n; i++) {
+              for (int j = 0; j < n1; j++) {
+                  if (max< array[i][j])
+                  {
+                      max = array[i][j];
+
+                  }
+              }
+          }
+         System.out.println(" Максимальне начення в масиві: "+max);
+          for (int i = 0; i < n; i++) {
+              for (int j = 0; j < n1; j++) {
+                  if (array[i][j] == max)
+                  {
+                   e1.add(i);
+                  }
+
+              }
+
+          }
+
+           for (int i=0;i<e1.size();i++) {
+    for (int j=0;j<n1;j++)
+    {
+
+    array[e1.get(i)][j]=R1;
+
+
+    }
+
+}}
+     static public void СкалярнийДобуток(int [][]array, int n,int n1)
+     {
+
+
+        int  min,max;
+        int k_min,k_max;
+        min=array[0][0];
+        max=array[0][0];
+        k_min=0;
+        k_max=0;
+        for(int i=0;i<n;i++)
+        {
+            for (int j =0;j<n1;j++)
+            {
+                if(array[i][j]>=max){max=array[i][j];k_max=i;}
+                if(array[i][j]<=min){min=array[i][j];k_min=j;}
+            }
+
+        }
+         System.out.println("Індекс рядка з максимальним елементом  :"+k_max);
+         System.out.println("Індекс стовпця з мінімальним елементом :"+k_min);
+
+         int sum = 0;
+         for (int i = 0; i < n; i++)
+         {
+             sum += array[k_max][i] * array[i][k_min];
+         }
+         System.out.println("Скалярний добуток :" + sum);
+     }
+
+
+
+
+
+    public static void main(String[] args) {
+
+        int ask = 0,n,n1,ask1=0;
+
+        Scanner skr = new Scanner(System.in);
+
+        try {
+
+            Exception ERROR = new Exception();
+            while (ask != 3)
+            {
+               System.out.print(" \nВеберіть завдання " +
+                        "          \n1 - Дано цілочислову матрицю А. Замінити кожен елемент рядка,де знаходиться максимальний елемент сумою елементів бічної діагоналі." +
+                        "          \n2 - Ввести квадратну матрицю дiйсних чисел.Знайти скалярний добуток рядка, в якому знаходиться найбiльший елемент\n  матрицi, на стовпчик з найменшим елементом " +
+                        "          \n3 - Вихід\n");
+                ask = skr.nextInt();
+                switch (ask) {
+                 case 1: {
+
+                        System.out.println("Введіть кількість рядків  масиву: ");
+                        n=skr.nextInt();
+                        System.out.println("Введіть кількість стовпців масиву: ");
+                        n1=skr.nextInt();
+
+                        int[][]array =  Ввід(n,n1);
+                        СумаДіагоналі(array,n,n1);
+                        Матриця(array,n,n1);
+                        Вивід(array,n,n1);
+                    }break;
+
+                  case 2:
+                  {
+                      System.out.println("\n1- Ввід з клавіатури" +
+                                         "\n2- Ввід Рандомно від -100 до 100");
+                      ask1=skr.nextInt();
+                      switch (ask1) {
+                          case 1:{
+
+                                  System.out.println("Введіть кількість рядків  масиву: ");
+                                  n = skr.nextInt();
+                                  System.out.println("Введіть кількість стовпців масиву: ");
+                                  n1 = skr.nextInt();
+
+                                             int array[][] = Ввід(n, n1);
+                                             СкалярнийДобуток(array, n, n1);
+                                             Вивід(array, n, n1);
+
+
+
+
+                          }break;
+                          case 2:{
+                              System.out.println("Введіть кількість рядків  масиву: ");
+                              n = skr.nextInt();
+                              System.out.println("Введіть кількість стовпців масиву: ");
+                              n1 = skr.nextInt();
+                             int array[][] = Рандом(n,n1);
+                                  checkRandom(array);
+                                  СкалярнийДобуток(array,n,n1);
+
+
+                          }break;
+                      }
+
+                  }break;
+             case 3: {
+                        System.out.println("Програма закрита");}
+
+                    default:
+                        System.out.println(ANSI_RED + ("Введіть вірно завдання!"));
+                }
+         }
+       throw ERROR ;
+
+        } catch (Exception er)
+        {
+            System.out.println(er);
+        }
+    }
+
+}
+
